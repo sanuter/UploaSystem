@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" method="upgrade">
+  <name>Frontpage SlideShow (by JoomlaWorks)</name>
+  <author>JoomlaWorks</author>
+  <creationDate>February 2nd, 2010</creationDate>
+  <copyright>Copyright (c) 2006 - 2010 JoomlaWorks Ltd. All rights reserved. This code cannot be redistributed without permission from JoomlaWorks.</copyright>
+  <authorEmail>contact@joomlaworks.gr</authorEmail>
+  <authorUrl>www.joomlaworks.gr</authorUrl>
+  <version>2.4</version>
+  <description>Frontpage Slideshow module for Joomla! 1.5 (by JoomlaWorks)</description>
+  <params addpath="/modules/mod_fpss/includes/elements">
+    <param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+    <param name="" type="header" default="Slideshow Parameters" label="" description="" />
+		<param name="fpssCategory" type="categories" default="1" label="Select slideshow category" description="Enter the ID of the slideshow category" />
+    <param name="fpssTemplate" type="template" default="Movies" label="Select slideshow template" description="This module utilizes on-the-fly MVC template overrides, inspired by our flagship component K2. What this means is that you can create a new sub-template folder for this module within your Joomla template's /html/mod_fpss/ folder. The module will then pickup the new sub-template auto-magically, without you editing any XML file or doing any other non-designer work! It also makes updating Frontpage Slideshow a breeze as you won't have to go into the trouble of backing up your custom template first." />
+    <param name="fpssEngine" type="list" default="mootools" label="Select slideshow engine" description="Choose appropriately to avoid any javascript issues with other extensions or even your template! If you choose the jQuery based slideshow engine and you are already using or loading jQuery elsewhere, consider choosing the thrid option that does not load one more instance of the jQuery library.">
+      <option value="mootools">Mootools based</option>
+      <option value="jquery">jQuery based</option>
+    </param>
+    <param name="fpssJquery" type="list" default="1.2.6" label="jQuery library handling" description="If you choose the jQuery based slideshow engine above and you are already using or loading jQuery elsewhere, it is best to disable loading the jQuery library from this module.">
+      <option value="0">Do not load the jQuery library</option>
+      <option value="1.2.6">Load v1.2.6</option>
+      <!--
+      <option value="1.3.2">Load v1.3.2</option>
+      <option value="1.4.0">Load v1.4.0</option>
+      -->
+    </param>
+    <param name="width" type="text" default="500" size="4" label="Slideshow Width" description="The width of the slideshow displaying on your site." />
+    <param name="height" type="text" default="308" size="4" label="Slideshow Height" description="The height of the slideshow displaying on your site." />
+    <param name="sidebarWidth" type="text" default="200" size="4" label="Sidebar Width (applies to certain FPSS templates only)" description="Width of the sidebar in pixels. Concerns the 'Uncut', 'FSD', 'Movies' and 'Sleek' templates by default. This width will be added to the overall width of the slideshow or otherwise." />
+    
+    <param name="hideNavigation" type="radio" default="0" label="Hide navigation bar?" description="Choose if you want to show or hide the navigation bar at the bottom of the slideshow.">
+      <option value="0">No</option>
+      <option value="1">Yes</option>
+    </param>
+    <param name="delay" type="text" default="6000" size="4" label="Delay time (in ms)" description="The pause time between slides in milliseconds. 1000 milliseconds equal 1 second." />
+    <param name="transition" type="text" default="1000" size="4" label="Transition time (in ms)" description="The cross fading time between slides in milliseconds. 1000 milliseconds equal 1 second." />
+    <param name="loadingTime" type="text" default="800" size="4" label="Preloader image delay time (in ms)" description="Time in milliseconds. 1000 milliseconds equal 1 second." />
+    <param name="autoStart" type="radio" default="1" label="Autostart slideshow" description="Choose whether the slideshow will start or pause on page load.">
+      <option value="0">No</option>
+      <option value="1">Yes</option>
+    </param>
+    <param name="rotateAction" type="radio" default="click" label="Website visitors can switch slides manually on..." description="Choose how slides switch when using the navigation.">
+      <option value="click">mouse click</option>
+      <option value="mouseover">mouse over</option>
+    </param>
+    <param name="mootoolsTextTransition" type="radio" default="0" label="Use text transition effect (Mootools engine only)" description="Adds a nice transition for text when switching between slides.">
+      <option value="0">No</option>
+      <option value="1">Yes</option>
+    </param>
+    <param name="mootoolsTextTransitionTime" type="text" default="1000" size="4" label="Text transition effect time (Mootools engine only)" description="Applies only if you've selected 'Yes' to the above option. Time in milliseconds. 1000 is 1 second." />
+    <param name="" type="header" default="Content Parameters" label="" description="" />
+    <param name="fpssOrdering" type="list" default="0" label="Slide order" description="The order in which slides will appear on the slideshow.">
+      <option value="1">Use component ordering</option>
+      <option value="2">Order by slide ID (descending)</option>
+      <option value="3">Order by slide ID (ascending)</option>  
+      <option value="4">Alphabetical</option>
+      <option value="5">Reverse alphabetical</option>
+      <option value="6">Random</option>
+    </param>
+    <param name="fpssSlideLimit" type="text" default="" size="4" label="Slide limit" description="This option can be very useful if you have for example 30 slides on your slideshow but only want to show 10 at a time. You input '10' in this case and only 10 slides will appear. If you combine this option with the 'Random' ordering option right above, you'll get a smart display feature for your slideshow. By default this option is empty to enable the display of all slides." />
+    <param name="fpssSlideTitle" type="list" default="" label="Title" description="Show or hide this element in the slideshow.">
+    	<option value="">Inherit settings from component</option>
+      <option value="0">Hide</option>
+      <option value="1">Show</option>
+    </param>
+    <param name="fpssSlideSec" type="list" default="" label="Article section (if applicable)" description="If applicable, show or hide this element in the slideshow.">
+    	<option value="">Inherit settings from component</option>
+      <option value="0">Hide</option>
+      <option value="1">Show</option>
+    </param>
+    <param name="fpssSlideCat" type="list" default="" label="Article category (if applicable)" description="If applicable, show or hide this element in the slideshow.">
+    	<option value="">Inherit settings from component</option>
+      <option value="0">Hide</option>
+      <option value="1">Show</option>
+    </param>
+    <param name="fpssSlideSecCatSep" type="text" default=">>" size="4" label="Article section/category separator" description="seperator" />
+    <param name="fpssSlideText" type="list" default="" label="Main text (custom or article introtext)" description="Show or hide this element in the slideshow.">
+    	<option value="">Inherit settings from component</option>
+      <option value="0">Hide</option>
+      <option value="1">Show</option>
+    </param>
+    <param name="fpssSlideTextWordLimit" type="text" default="20" size="4" label="Word limit for main text" description="Word limit. Enter 0 to disable it. When the word limit is on, all html tags in main text will be stripped to avoid HTML code breaking." />
+    <param name="fpssSlideTagline" type="list" default="" label="Tagline text" description="Show or hide this element in the slideshow.">
+    	<option value="">Inherit settings from component</option>
+      <option value="0">Hide</option>
+      <option value="1">Show</option>
+    </param>
+    <param name="fpssSlideReadMore" type="list" default="" label="Read more... link" description="Show or hide this element in the slideshow.">
+    	<option value="">Inherit settings from component</option>
+      <option value="0">Hide</option>
+      <option value="1">Show</option>
+    </param>
+    <param name="fpssSlideLinksDisable" type="radio" default="0" label="Disable slide links" description="">
+      <option value="0">No</option>
+      <option value="1">Yes</option>
+    </param>
+  </params>
+	<params group="advanced">
+  	<param name="debugMode" type="radio" default="1" label="Debug mode" description="Enable this option to display possible errors or other warnings. Useful for debugging. Enabled by default. You should disable this option on production websites.">
+      <option value="0">Disabled</option>
+      <option value="1">Enabled</option>
+    </param>
+    <param name="@spacer" type="spacer" default="" label="" description="" />
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+		<param name="cache_time" type="text" default="900" label="Cache time (in seconds)" description="The time before the module is recached" />
+	</params>
+  <files>
+    <filename module="mod_fpss">mod_fpss.php</filename>
+    <filename>helper.php</filename>
+    <folder>includes</folder>
+    <folder>tmpl</folder>
+  </files>
+  <!--
+	<languages>
+		<language tag="en-GB">en-GB.mod_fpss.ini</language>
+	</languages>
+	-->
+</install>
