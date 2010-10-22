@@ -4,8 +4,10 @@
  * @copyright  Copyright (C) 2004 - 2010. Home Company
  * @license    http://www.opensource.org/licenses/bsd-license.php
  */
+var_dump($comments);
 ?>
 <div>
+    <form action="<?php echo Url::current() ?>" method="post">
     <table width="50%">
         <tr>
             <th colspan="2">№</th>
@@ -24,7 +26,7 @@
     <?php if( isset($files) ) {?>
     <?php foreach( $files as $file ) {?>    
         <tr>
-            <td><input type="checkbox" /></td>
+            <td><input type="checkbox" name="del[]" value="<?php echo $file['id'] ?>" /></td>
             <td><?php echo $file['id'] ?></td>
             <td><?php echo $file['name'] ?></td>
             <td><?php echo $file['data'] ?></td>
@@ -32,9 +34,9 @@
         </tr>
         <tr>
             <td colspan="5" align="right">
-                <?php if(  isset( $comment[$file['id']]) ) { ?>
-
-                <?php } else { ?>
+                <?php if(  isset( $comments[$file['id']] ) ) {
+                        echo $comments[$file['id']];
+                      } else { ?>
                 <a href="<?php echo Url::current().'?comments='.$file['id'] ?>">Просмотр комментариев</a>
                 <?php } ?>
             </td>
@@ -42,4 +44,6 @@
     <?php } ?>
     <?php } ?>
     </table>
+    <input type="submit" value="Удалить" />
+    </form>
 </div>

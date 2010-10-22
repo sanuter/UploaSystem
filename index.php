@@ -39,8 +39,8 @@ UploadSystem::init();
 
 $routers = array(
     'default' => array(
-        'controller' => 'user',
-        'action'     => 'login'
+        'controller' => 'files',
+        'action'     => 'index'
     ),
     'list' => array(
         'controller' => 'files',
