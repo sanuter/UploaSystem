@@ -111,7 +111,7 @@ class Core_Database {
                 $result[] = $item;
             }
         } else {
-            $result = mysql_fetch_assoc($row);
+            $result = array( '0' => mysql_fetch_assoc($row) );
         }
         return $result;
     }
