@@ -58,9 +58,9 @@ $routers = array(
         'controller' => 'user',
         'action'     => 'logout'
     ),
-    'comment' => array(
-        'controller' => 'comment',
-        'action'     => 'index'
+    'delfiles' => array(
+        'controller' => 'files',
+        'action'     => 'delfiles'
     ),
     'uploadfile' => array(
         'controller' => 'files',
