@@ -66,6 +66,14 @@ $routers = array(
         'controller' => 'files',
         'action'     => 'upload'
     ),
+    'show' => array(
+        'controller' => 'files',
+        'action'     => 'show'
+    ),
+    'vid' => array(
+        'controller' => 'files',
+        'action'     => 'vid'
+    ),
 );
 
 // Роутеры системы
