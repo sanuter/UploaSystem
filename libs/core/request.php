@@ -127,7 +127,11 @@ class Core_Request {
      * 
      * @return $this
      */
+<<<<<<< HEAD
     public function execute( $data = array() ) {
+=======
+    public function execute() {
+>>>>>>> 1687d027e0db9f97a36ac0b82c79290a574b2a8d
 
         $pre = 'Controller_';
         $class = new ReflectionClass($pre.ucfirst($this->controller));
@@ -135,7 +139,11 @@ class Core_Request {
                 $controller = $class->newInstance($this);
                 $class->getMethod('before')->invoke($controller);
 		$action = empty($this->action) ? 'index' : $this->action;                
+<<<<<<< HEAD
                 $class->getMethod('action_'.$action)->invokeArgs($controller, $data );
+=======
+                $class->getMethod('action_'.$action)->invokeArgs($controller, $this->_params);
+>>>>>>> 1687d027e0db9f97a36ac0b82c79290a574b2a8d
                 $class->getMethod('after')->invoke($controller);
         }
         return $this;

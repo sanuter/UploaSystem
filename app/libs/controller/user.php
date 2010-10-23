@@ -21,7 +21,11 @@ class Controller_User extends Controller_Main {
 
     public function action_logout() {       
         $this->_user->logout();
+<<<<<<< HEAD
         $this->_request->redirect( Url::root().'list');
+=======
+        $this->action_login();
+>>>>>>> 1687d027e0db9f97a36ac0b82c79290a574b2a8d
     }
 }
 ?>
