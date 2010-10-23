@@ -21,8 +21,7 @@ abstract class Core_Users {
     *
     * @return Users
     */
-   public static function instance()
-   {
+   public static function instance() {
         if ( self::$instance === NULL ) {
             self::$instance = new self;
 	}
@@ -34,15 +33,14 @@ abstract class Core_Users {
     * 
     * @param string имя
     * @param string пароль
-    * @return boolean 
     */
-   abstract public function login( $username, $password ) {}
+   public function login( $username, $password ) {}
 
-    abstract public function logout() {}
+   /**
+    *  Подготовка к выходу
+    */
+   public function logout() {}
 
-   protected function  __destruct() {
-        
-    }
-
+ 
 }
 ?>

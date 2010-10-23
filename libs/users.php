@@ -7,8 +7,8 @@
 class Users extends Core_Users {
 
    /*
-    * @var Данные текущего пользователя
-    */
+   * @var Данные текущего пользователя
+   */
    public $info;
    /*
    * @var  string  Текущий пользователь
@@ -44,7 +44,7 @@ class Users extends Core_Users {
     public static function current_user() {
        $user = self::instance();
        if( $user->info !== NULL) {
-           return self::user_param('id');
+           return $user->info->id;
        } else {
            return NULL;
        }

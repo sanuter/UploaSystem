@@ -60,35 +60,58 @@ class Files extends Core_Files {
      * @param int    Всего выбрать записей
      * @return array
      */
-    public static function files_list( $sort = 'DESC', $order = 'data', $start = 0, $limit = 5 ) {
-        $db = Database::instance();    
-       
-        $db->sort = $sort;
+    public static function files_list( $sort = 'DESC', $order = 'data', $start = 0 ) {
         
+        $db    = Database::instance();
+        $limit = 5;
+              
         $order = 'f.'.$order;
 
         $add_filter='';
 
         if( Users::current_user() !== NULL ) {
-            $add_filter = ' AND f.user_id = '.Users::current_user().' ';
+            $add_filter = ' AND f.id IN (SELECT files_id FROM files_param WHERE users_id = '.Users::current_user().')';
         } else {
-            $add_filter = ' AND f.vid = 1 ';
+            $add_filter = ' AND f.id IN (SELECT files_id FROM files_param WHERE visibly = 1)';
         }
 
-        $files = $db->query('SELECT f.id as id, f.name as name, f.data as data, f.comment as comment, f.vid as vid, u.email as user
-            FROM files as f, users as u
+        $files = $db->query('SELECT 
+                f.id as id,
+                f.name as name,
+                f.data as data,
+                fp.comment as comment,
+                fp.visibly as vid,
+                u.email as user
+            FROM
+                files as f,
+                files_param as fp,
+                users as u
             WHERE
-            f.user_id=u.id '.$add_filter.'
+                f.user_id=u.id AND f.id=fp.files_id'.$add_filter.'
             ORDER BY
-            '.$order.' '.$db->sort.'
-            LIMIT '.$db->start.','.$db->limit.'
+                '.$order.' '.$sort.'
+            LIMIT '.$start.','.$limit.'
             ');
 
-        if( count($files) == 1 ) {
-            return array( '0' => $files );
+        return $files;
+    }
+
+    /**
+     * Всего файлов
+     * 
+     * @return mixed
+     */
+    public function files_all_list() {
+        
+        $db = Database::instance();
+
+        if( Users::current_user() !== NULL ) {
+            $sql = 'SELECT COUNT(files_id) as all FROM files_param WHERE users_id = '.Users::current_user().'';
         } else {
-            return $files;
+            $sql = 'SELECT COUNT(files_id) as all FROM files_param WHERE visibly = 1)';
         }
+
+        return $db->query( $sql );
     }
 
     /**

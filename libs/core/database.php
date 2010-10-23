@@ -20,19 +20,7 @@ class Core_Database {
     /*
      * @var Последний запрос
      */
-    public $last_sql;
-    /*
-     * @var Выборка с записи
-     */
-    public $start = '0';
-    /*
-     * @var Всего записей в выборке
-     */
-    public $limit = '5';
-    /*
-     * @var Сортировка по умочанию
-     */
-    public $sort = 'DESC';
+    public $last_sql;    
 
     const SELECT = 1;
     const INSERT = 2;
