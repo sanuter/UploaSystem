@@ -56,9 +56,11 @@ class Files extends Core_Files {
      *
      * @param string Направление сортировки
      * @param string Сортировка по полю
+     * @param int    С записи начать
+     * @param int    Всего выбрать записей
      * @return array
      */
-    public static function files_list( $sort = 'DESC', $order = 'data' ) {
+    public static function files_list( $sort = 'DESC', $order = 'data', $start = 0, $limit = 5 ) {
         $db = Database::instance();    
        
         $db->sort = $sort;
@@ -123,12 +125,12 @@ class Files extends Core_Files {
         if( $id !== NULL) {
             $db = Database::instance();
 
-            $type = $db->query('SELECT vid FROM files_param WHERE files_id = '.(int)$id);
+            $type = $db->query('SELECT visibly FROM files_param WHERE files_id = '.(int)$id);
 
             if($type['vid'] == 1) {
-                $db->query('UPDATE files_param SET vid=0 WHERE files_id = '.(int)$id, 3 );
+                $db->query('UPDATE files_param SET visibly=0 WHERE files_id = '.(int)$id, 3 );
             } else {
-                $db->query('UPDATE files_param SET vid=1 WHERE files_id = '.(int)$id, 3 );
+                $db->query('UPDATE files_param SET visibly=1 WHERE files_id = '.(int)$id, 3 );
             }
 
             return TRUE;
@@ -158,7 +160,7 @@ class Files extends Core_Files {
                 '.$db->escape($request->user_agent).'
         );', 2 );
 
-        $db->query( 'INSERT INTO files_param (`files_id`, `user_id`, `comment`, `vid` )
+        $db->query( 'INSERT INTO files_param (`files_id`, `user_id`, `comment`, `visibly` )
             VALUES(
                 '.$db->escape($result['id']).',
                 '.$db->escape(Users::current_user()).',
