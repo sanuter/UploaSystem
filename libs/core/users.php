@@ -5,26 +5,15 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php
  */
 
-class Core_Users {
+abstract class Core_Users {
 
    protected static $instance;
 
    protected $_db;
 
    protected $_session;
-   // Данные текущего пользователя
-   public $info;
-   /**
-   * @var  string  Текущий пользователь
-   */
-   protected static $_current_user;
-
-   protected function  __construct() {
-        $this->_db = Database::instance();
-        $this->_session = Session::instance();
-        if( $this->_session->get('user') !== NULL ) {
-            $this->info = (object)$this->_session->get('user');
-        }
+   
+   protected function  __construct() {        
    }
 
    /**
@@ -47,30 +36,11 @@ class Core_Users {
     * @param string пароль
     * @return boolean 
     */
-   public function login( $username, $password ) {
-       
-        if( empty($username) || empty($password) ) {
-            return FALSE;
-        }
+   abstract public function login( $username, $password ) {}
 
-        if(is_string($password)) $password = md5($password);
+    abstract public function logout() {}
 
-        $result = $this->_db->query('SELECT * FROM users WHERE email = '.$this->_db->escape($username).' AND password = '.$this->_db->escape($password).'');
-        $info = $result[0];
-        if($info) {
-            $this->_session->set( 'guest', (int) '1' );           
-            $this->_session->set( 'user', array_merge( $info, array( 'path' => Files::dir_user( $info['email'] ) ) ) );
-            return TRUE;
-        } else {
-            return FALSE;
-        }
-   }
-
-   public function logout() {
-        return $this->_session->destroy();
-   }
-
-   public function  __destruct() {
+   protected function  __destruct() {
         
     }
 

@@ -24,7 +24,7 @@ class Files extends Core_Files {
                 mkdir($dir);
             }
         }
-
+        
         return $dir;
     }
 
@@ -35,18 +35,17 @@ class Files extends Core_Files {
      */
     public static function file_del( $file = NULL ) {
         if( $file !== NULL) {
-            $user = Users::instance()->info;
+            
             $db = Database::instance();
-
-            $fname = $db->query('SELECT name FROM files
-                WHERE id='.$file.'');            
-
-            $fname = realpath($user->path).DIRECTORY_SEPARATOR.$fname[0]['name'];
+            $fname = $db->query('SELECT name FROM files WHERE id='.$file.'');
+            $fname = realpath(Users::user_param('path')).DIRECTORY_SEPARATOR.$fname['name'];
 
             if( is_file( $fname ) ) {
                 if( unlink($fname) ) {
-                    $db->query('DELETE FROM files WHERE files.id = '.$file.'','IN');
-                    $db->query('DELETE FROM comments WHERE comments.files_id = '.$file.'','IN');
+                    $db->query('DELETE FROM files WHERE id = '.$file.'',4);
+                    $db->query('DELETE FROM files_param WHERE files_id = '.$file.'',4);
+                    $db->query('DELETE FROM comments_tree WHERE item_id IN (SELECT id FROM comments WHERE files_id = '.$file.')',4);
+                    $db->query('DELETE FROM comments WHERE comments.files_id = '.$file.'',4);
                 }
             }
         }
@@ -60,9 +59,7 @@ class Files extends Core_Files {
      * @return array
      */
     public static function files_list( $sort = 'DESC', $order = 'data' ) {
-        $db = Database::instance();
-        $user = Users::instance();
-        //$request = Request::instance();       
+        $db = Database::instance();    
        
         $db->sort = $sort;
         
@@ -70,8 +67,8 @@ class Files extends Core_Files {
 
         $add_filter='';
 
-        if( $user->info !== NULL ) {
-            $add_filter = ' AND f.user_id = '.$user->info->id.' ';
+        if( Users::current_user() !== NULL ) {
+            $add_filter = ' AND f.user_id = '.Users::current_user().' ';
         } else {
             $add_filter = ' AND f.vid = 1 ';
         }
@@ -85,47 +82,56 @@ class Files extends Core_Files {
             LIMIT '.$db->start.','.$db->limit.'
             ');
 
-        /* TODO return resut */
-        if( $files[0] === FALSE ) {
-            return FALSE;
+        if( count($files) == 1 ) {
+            return array( '0' => $files );
         } else {
             return $files;
         }
     }
 
+    /**
+     * Скрыть/Отобразить комментарии
+     * 
+     * @param string id файла
+     * @return boolean 
+     */
     public static function file_show( $id = NULL ){
         if( $id !== NULL) {
             $db = Database::instance();
 
-            $type = $db->query('SELECT comment FROM files WHERE id = '.(int)$id);
+            $type = $db->query('SELECT comment FROM files_param WHERE files_id = '.(int)$id);
 
-            if($type[0]['comment'] == 1) {
-                $db->query('UPDATE files SET comment=0 WHERE id = '.(int)$id, 'IN');
+            if($type['comment'] == 1) {
+                $db->query('UPDATE files_param SET comment=0 WHERE files_id = '.(int)$id, 'IN');
             } else {
-                $db->query('UPDATE files SET comment=1 WHERE id = '.(int)$id, 'IN');
+                $db->query('UPDATE files_param SET comment=1 WHERE files_id = '.(int)$id, 'IN');
             }
 
             return TRUE;
-
         } else {
             return FALSE;
         }
     }
 
+    /**
+     * Скрыть/Отобразить файл
+     * 
+     * @param string id файла
+     * @return boolean 
+     */
     public static function file_vid( $id = NULL ){
         if( $id !== NULL) {
             $db = Database::instance();
 
-            $type = $db->query('SELECT vid FROM files WHERE id = '.(int)$id);
+            $type = $db->query('SELECT vid FROM files_param WHERE files_id = '.(int)$id);
 
-            if($type[0]['vid'] == 1) {
-                $db->query('UPDATE files SET vid=0 WHERE id = '.(int)$id, 'IN');
+            if($type['vid'] == 1) {
+                $db->query('UPDATE files_param SET vid=0 WHERE files_id = '.(int)$id, 3 );
             } else {
-                $db->query('UPDATE files SET vid=1 WHERE id = '.(int)$id, 'IN');
+                $db->query('UPDATE files_param SET vid=1 WHERE files_id = '.(int)$id, 3 );
             }
 
             return TRUE;
-
         } else {
             return FALSE;
         }
@@ -142,18 +148,23 @@ class Files extends Core_Files {
     public static function  save(array $file, $filename = NULL, $directory = NULL, $chmod = 0644) {
         parent::save($file, $filename, $directory, $chmod);
 
-        $db = Database::instance();
-        $user = Users::instance();
+        $db      = Database::instance();
         $request = Request::instance();
 
-        $db->query( 'INSERT INTO  `files` (`user_id`, `name`, `ip`, `agent`, `comment`)
+        $result = $db->query( 'INSERT INTO files (`name`, `ip`, `agent` )
             VALUES(
-                '.$db->escape($user->info->id).',
                 '.$db->escape($filename).',
                 '.$db->escape($request->client_ip).',
-                '.$db->escape($request->user_agent).',
+                '.$db->escape($request->user_agent).'
+        );', 2 );
+
+        $db->query( 'INSERT INTO files_param (`files_id`, `user_id`, `comment`, `vid` )
+            VALUES(
+                '.$db->escape($result['id']).',
+                '.$db->escape(Users::current_user()).',
+                '.$db->escape(0).',
                 '.$db->escape(0).'
-        );', 'IN' );
+        );', 2 );
     }
 }
 ?>

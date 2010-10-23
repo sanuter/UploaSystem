@@ -34,6 +34,11 @@ class Core_Database {
      */
     public $sort = 'DESC';
 
+    const SELECT = 1;
+    const INSERT = 2;
+    const UPDATE = 3;
+    const DELETE = 4;
+
     private function  __construct() {
         $this->_config = UploadSystem::$config['base'];
         Database::$instance = $this;
@@ -42,7 +47,6 @@ class Core_Database {
     /**
      * Database instance
      *
-     * @param array Конфигурация
      * @return Datebase
      */
     public static function instance() {
@@ -80,7 +84,7 @@ class Core_Database {
      * @param string Запрос к базе
      * @return mixed 
      */
-    public function query( $sql, $type = 'OUT' ) {
+    public function query( $sql, $type = 1 ) {
 
         $this->_connection or $this->connect();
 
@@ -91,8 +95,13 @@ class Core_Database {
             return mysql_errno($this->_connection);
 	}
 
-        if( $type === 'OUT') {
+        if( $type == 1) {
             return $this->as_array( $result );
+        } elseif($type == 2) {
+            return  array(
+                        'id'    => mysql_insert_id($this->_connection),
+                        'count' => mysql_affected_rows($this->_connection)
+                    );
         } else {
             return mysql_affected_rows($this->_connection);
         }
@@ -105,13 +114,13 @@ class Core_Database {
      * @return array
      */
     public function as_array( $row ) {
-        if( mysql_affected_rows($this->_connection) > 1 ) {
-            $result = array();
+        $result = array();
+        if( mysql_affected_rows($this->_connection) > 1 ) {            
             while( $item = mysql_fetch_assoc($row) ) {
                 $result[] = $item;
             }
         } else {
-            $result = array( '0' => mysql_fetch_assoc($row) );
+            $result = mysql_fetch_assoc($row);
         }
         return $result;
     }
@@ -139,6 +148,10 @@ class Core_Database {
      */
     private function disconnect() {
 
+    }
+
+    public function  __destruct() {
+        
     }
 }
 ?>
