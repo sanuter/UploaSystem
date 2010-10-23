@@ -48,23 +48,7 @@ class Users extends Core_Users {
        } else {
            return NULL;
        }
-   }
-
-   /**
-    * Поиск и возврат параметра пользователя
-    * 
-    * @param string ключ параметра
-    * @return string параметр пользователя 
-    */
-   public static function user_param( $key ) {
-       if( $user = self::instance() !== NULL ) {
-            if( isset( $user->info->{$key}) ) {
-                return $user->info->{$key};
-            } else {
-                return NULL;
-            }
-       }
-   }
+   } 
 
     /**
     * Подготовка ко входу и вход

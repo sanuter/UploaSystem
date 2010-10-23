@@ -14,11 +14,23 @@ class Controller_Model_Files extends Model {
 
         $files = Files::files_list( $sort, $order, $start );
 
-        if( count($files) == 1 ) {
-            return array( '0' => $files );
+        if( !isset($files[0]) ) {
+            if( $files === FALSE) {
+                return FALSE;
+            } else {
+                return array( '0' => $files );
+            }
         } else {
             return (array)$files;
         }
+    }
+
+    public function files_delete( $files ) {       
+        if( is_array($files) ){
+            foreach( $files as $file ) {
+                Files::file_del($file);
+            }
+        } 
     }
     
     public function file_show( $id ) {
@@ -27,6 +39,10 @@ class Controller_Model_Files extends Model {
 
     public function file_visibly( $id ) {
         return Files::file_vid($id);
+    }
+
+    public function all() {
+        return Files::files_all_list();
     }
 
     public function load_comments( $id ) {

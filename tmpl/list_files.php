@@ -6,7 +6,7 @@
  */
 ?>
 <div>
-    <form action="<?php echo Url::current().'delfiles' ?>" method="post">
+    <form action="<?php echo Url::root().'delfiles' ?>" method="post">
     <table width="70%">
         <tr>
             <th colspan="2">№</th>

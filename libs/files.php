@@ -38,7 +38,7 @@ class Files extends Core_Files {
             
             $db = Database::instance();
             $fname = $db->query('SELECT name FROM files WHERE id='.$file.'');
-            $fname = realpath(Users::user_param('path')).DIRECTORY_SEPARATOR.$fname['name'];
+            $fname = realpath(Users::instance()->info->path).DIRECTORY_SEPARATOR.$fname['name'];
 
             if( is_file( $fname ) ) {
                 if( unlink($fname) ) {
@@ -87,7 +87,7 @@ class Files extends Core_Files {
                 files_param as fp,
                 users as u
             WHERE
-                f.user_id=u.id AND f.id=fp.files_id'.$add_filter.'
+                fp.users_id=u.id AND f.id=fp.files_id '.$add_filter.'
             ORDER BY
                 '.$order.' '.$sort.'
             LIMIT '.$start.','.$limit.'
@@ -101,7 +101,7 @@ class Files extends Core_Files {
      * 
      * @return mixed
      */
-    public function files_all_list() {
+    public static function files_all_list() {
         
         $db = Database::instance();
 
@@ -109,9 +109,13 @@ class Files extends Core_Files {
             $sql = 'SELECT COUNT(files_id) as all FROM files_param WHERE users_id = '.Users::current_user().'';
         } else {
             $sql = 'SELECT COUNT(files_id) as all FROM files_param WHERE visibly = 1)';
-        }
+        }       
 
-        return $db->query( $sql );
+        $all = $db->query( $sql );
+        
+        echo $db->last_sql;
+
+        return $all;
     }
 
     /**
@@ -150,7 +154,7 @@ class Files extends Core_Files {
 
             $type = $db->query('SELECT visibly FROM files_param WHERE files_id = '.(int)$id);
 
-            if($type['vid'] == 1) {
+            if($type['visibly'] == 1) {
                 $db->query('UPDATE files_param SET visibly=0 WHERE files_id = '.(int)$id, 3 );
             } else {
                 $db->query('UPDATE files_param SET visibly=1 WHERE files_id = '.(int)$id, 3 );
@@ -173,6 +177,11 @@ class Files extends Core_Files {
     public static function  save(array $file, $filename = NULL, $directory = NULL, $chmod = 0644) {
         parent::save($file, $filename, $directory, $chmod);
 
+        if (parent::$remove_spaces === TRUE)
+	{
+            $filename = preg_replace('/\s+/', '_', $filename);
+	}
+
         $db      = Database::instance();
         $request = Request::instance();
 
@@ -183,7 +192,7 @@ class Files extends Core_Files {
                 '.$db->escape($request->user_agent).'
         );', 2 );
 
-        $db->query( 'INSERT INTO files_param (`files_id`, `user_id`, `comment`, `visibly` )
+        $db->query( 'INSERT INTO files_param (`files_id`, `users_id`, `comment`, `visibly` )
             VALUES(
                 '.$db->escape($result['id']).',
                 '.$db->escape(Users::current_user()).',

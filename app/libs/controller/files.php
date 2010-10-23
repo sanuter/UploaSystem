@@ -33,17 +33,20 @@ class Controller_Files extends Controller_Main {
 
 
         if( Request::get('comments') !== NULL ) {
-        $this->_all_tree = Model::factory('files')->load_comments( Request::get('comments') );
-       
-        if( !empty( $this->_all_tree ) ) {
-            $comments = $this->buid_comments( $comments, $this->_all_tree );            
-        }
+            $this->_all_tree = Model::factory('files')->load_comments( Request::get('comments') );
+
+            if( !empty( $this->_all_tree ) ) {
+                $comments = $this->buid_comments( $comments, $this->_all_tree );
+            }
         }  
 
-        if( $files !== FALSE ){
+        if( $files = Model::factory('files')->files_list( $sort, $order, $page ) ){
             $this->_request->response .= View::factory( 'list_files' )
-                    ->set( 'files', Model::factory('files')->files_list( $sort, $order, $page ) );
+                    ->set( 'files', $files );
                     //->set( 'comments', array( $this->_comment_id => $comments ) );
+            $this->_request->response .= View::factory('pagination')
+                    ->set('all', Model::factory('files')->all())
+                    ->set('onpage', '5');
         } else {
             $this->_request->response .= View::factory( 'files_no' );
         }
@@ -65,8 +68,7 @@ class Controller_Files extends Controller_Main {
                     $this->_request->redirect( Url::root().'list');
                 }
             } else {
-                echo 'Error';
-                $this->action_index();
+                $this->_request->redirect( Url::root().'list');
             }
             }
         } else {
@@ -75,11 +77,8 @@ class Controller_Files extends Controller_Main {
     }
 
     public function action_delfiles() {
-        if( $this->_user->info !== NULL  && Request::get('del','post') !== NULL ) {
-            $files = Request::get('del','post');
-            foreach( $files as $file) {
-                Files::file_del($file);               
-            }
+        if( $this->_user->info !== NULL && Request::get('del','post') !== NULL ) {
+            Model::factory('files')->files_delete(Request::get('del','post'));
             $this->_request->redirect( Url::root().'list');
         } else {
             $this->_request->redirect( Url::root().'login');
