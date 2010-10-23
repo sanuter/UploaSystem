@@ -42,7 +42,8 @@ class Controller_Model_Files extends Model {
     }
 
     public function all() {
-        return Files::files_all_list();
+        $result = Files::files_all_list();
+        return (int)$result['items'];
     }
 
     public function load_comments( $id ) {

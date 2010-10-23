@@ -106,16 +106,12 @@ class Files extends Core_Files {
         $db = Database::instance();
 
         if( Users::current_user() !== NULL ) {
-            $sql = 'SELECT COUNT(files_id) as all FROM files_param WHERE users_id = '.Users::current_user().'';
+            $sql = 'SELECT COUNT(files_id) as items FROM files_param WHERE users_id = '.Users::current_user().'';
         } else {
-            $sql = 'SELECT COUNT(files_id) as all FROM files_param WHERE visibly = 1)';
+            $sql = 'SELECT COUNT(files_id) as items FROM files_param WHERE visibly = 1';
         }       
 
-        $all = $db->query( $sql );
-        
-        echo $db->last_sql;
-
-        return $all;
+        return $db->query( $sql );
     }
 
     /**

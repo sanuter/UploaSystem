@@ -5,15 +5,20 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php
  */
 ?>
-<div>
+<div> Страницы: 
 <?php
 if( $all > 0) {
 
-    echo $all.'---'.$onpage;
-    $pages = $all%$onpage;
-    exit();
-    for( $i=0; $i<=$pages; $i) {
-        echo '<span><a hreaf="'.Url::current().'?page='.$i.'" alt="Страница '.$i.'">'.$i.'</a></span>';
+    $pages = abs($all%$onpage);
+
+    if( $pages > 1 ) {
+        for( $i=1; $i<=$pages; $i++ ) {
+            if( $i == 1) {
+                echo '<span><a href="'.Url::current().'" alt="Страница '.$i.'">'.$i.'</a></span> ';
+            } else {
+                echo '<span><a href="'.Url::current().'?page='.(($i-1)*$onpage).'" alt="Страница '.$i.'">'.$i.'</a></span> ';
+            }
+        }
     }
 }
 ?>

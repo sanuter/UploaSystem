@@ -42,7 +42,8 @@ class Controller_Files extends Controller_Main {
 
         if( $files = Model::factory('files')->files_list( $sort, $order, $page ) ){
             $this->_request->response .= View::factory( 'list_files' )
-                    ->set( 'files', $files );
+                    ->set( 'files', $files )
+                    ->set( 'page', $page );
                     //->set( 'comments', array( $this->_comment_id => $comments ) );
             $this->_request->response .= View::factory('pagination')
                     ->set('all', Model::factory('files')->all())
