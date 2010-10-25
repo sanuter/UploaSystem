@@ -4,7 +4,6 @@
  * @copyright  Copyright (C) 2004 - 2010. Home Company
  * @license    http://www.opensource.org/licenses/bsd-license.php
  */
-<<<<<<< HEAD
 class Users extends Core_Users {
 
    /*
@@ -79,7 +78,4 @@ class Users extends Core_Users {
         return $this->_session->destroy();
    }
 }
-=======
-class Users extends Core_Users {}
->>>>>>> 1687d027e0db9f97a36ac0b82c79290a574b2a8d
 ?>

@@ -25,7 +25,7 @@ class Controller_Model_Files extends Model {
         }
     }
 
-    public function files_delete( $files ) {       
+    public function files_delete( $files ) {
         if( is_array($files) ){
             foreach( $files as $file ) {
                 Files::file_del($file);

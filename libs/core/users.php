@@ -5,21 +5,13 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php
  */
 
-<<<<<<< HEAD
-abstract class Core_Users {
-=======
 class Core_Users {
->>>>>>> 1687d027e0db9f97a36ac0b82c79290a574b2a8d
 
    protected static $instance;
 
    protected $_db;
 
    protected $_session;
-<<<<<<< HEAD
-   
-   protected function  __construct() {        
-=======
    // Данные текущего пользователя
    public $info;
    /**
@@ -33,7 +25,6 @@ class Core_Users {
         if( $this->_session->get('user') !== NULL ) {
             $this->info = (object)$this->_session->get('user');
         }
->>>>>>> 1687d027e0db9f97a36ac0b82c79290a574b2a8d
    }
 
    /**
@@ -41,12 +32,8 @@ class Core_Users {
     *
     * @return Users
     */
-<<<<<<< HEAD
-   public static function instance() {
-=======
-   public static function instance()
-   {
->>>>>>> 1687d027e0db9f97a36ac0b82c79290a574b2a8d
+
+   public static function instance() {   
         if ( self::$instance === NULL ) {
             self::$instance = new self;
 	}
@@ -58,18 +45,6 @@ class Core_Users {
     * 
     * @param string имя
     * @param string пароль
-<<<<<<< HEAD
-    */
-   public function login( $username, $password ) {}
-
-   /**
-    *  Подготовка к выходу
-    */
-   public function logout() {}
-
- 
-=======
-    * @return boolean 
     */
    public function login( $username, $password ) {
        
@@ -90,6 +65,10 @@ class Core_Users {
         }
    }
 
+   /**
+    *  Подготовка к выходу
+    *  @return boolean
+    */
    public function logout() {
         return $this->_session->destroy();
    }
@@ -97,7 +76,5 @@ class Core_Users {
    public function  __destruct() {
         
     }
-
->>>>>>> 1687d027e0db9f97a36ac0b82c79290a574b2a8d
 }
 ?>

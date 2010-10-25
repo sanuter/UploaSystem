@@ -127,23 +127,14 @@ class Core_Request {
      * 
      * @return $this
      */
-<<<<<<< HEAD
     public function execute( $data = array() ) {
-=======
-    public function execute() {
->>>>>>> 1687d027e0db9f97a36ac0b82c79290a574b2a8d
-
         $pre = 'Controller_';
         $class = new ReflectionClass($pre.ucfirst($this->controller));
         if (!$class->isAbstract()) {
                 $controller = $class->newInstance($this);
                 $class->getMethod('before')->invoke($controller);
-		$action = empty($this->action) ? 'index' : $this->action;                
-<<<<<<< HEAD
+		$action = empty($this->action) ? 'index' : $this->action;           
                 $class->getMethod('action_'.$action)->invokeArgs($controller, $data );
-=======
-                $class->getMethod('action_'.$action)->invokeArgs($controller, $this->_params);
->>>>>>> 1687d027e0db9f97a36ac0b82c79290a574b2a8d
                 $class->getMethod('after')->invoke($controller);
         }
         return $this;
@@ -162,15 +153,39 @@ class Core_Request {
         exit();
     }
 
+    /**
+     * Выборка переменных из $_GET, $_POST
+     *
+     * @param string Имя переменной
+     * @param string Тип массива
+     * @return string
+     */
     public static function get( $key, $method = 'get') {
         if( $method === 'get' ) {
-            return $_GET[$key];
-        }
-        elseif( $method = 'post' ) {
-            return $_POST[$key];
+            return self::xss($_GET[$key]);
+        } elseif( $method = 'post' ) {
+            return self::xss($_POST[$key]);
         } else {
             return NULL;
         }
+    }
+
+    public static function xss( $value ) {
+
+        $result = NULL;
+
+        if(is_array($value)) {
+            $result = array();
+            foreach($value as $key=>$item) {
+                $result[$item] = Filter::xss_filter($item);
+            }
+        }
+
+        if(is_string($value)) {
+            $result = Filter::xss_filter($value);
+        }
+        
+        return (empty($result))? NULL : $result;
     }
 
     /**

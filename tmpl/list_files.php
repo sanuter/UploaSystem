@@ -6,11 +6,7 @@
  */
 ?>
 <div>
-<<<<<<< HEAD
     <form action="<?php echo Url::root().'delfiles' ?>" method="post">
-=======
-    <form action="<?php echo Url::current().'delfiles' ?>" method="post">
->>>>>>> 1687d027e0db9f97a36ac0b82c79290a574b2a8d
     <table width="70%">
         <tr>
             <th colspan="2">№</th>

@@ -20,28 +20,12 @@ class Core_Database {
     /*
      * @var Последний запрос
      */
-<<<<<<< HEAD
     public $last_sql;    
 
     const SELECT = 1;
     const INSERT = 2;
     const UPDATE = 3;
     const DELETE = 4;
-=======
-    public $last_sql;
-    /*
-     * @var Выборка с записи
-     */
-    public $start = '0';
-    /*
-     * @var Всего записей в выборке
-     */
-    public $limit = '5';
-    /*
-     * @var Сортировка по умочанию
-     */
-    public $sort = 'DESC';
->>>>>>> 1687d027e0db9f97a36ac0b82c79290a574b2a8d
 
     private function  __construct() {
         $this->_config = UploadSystem::$config['base'];
@@ -51,10 +35,6 @@ class Core_Database {
     /**
      * Database instance
      *
-<<<<<<< HEAD
-=======
-     * @param array Конфигурация
->>>>>>> 1687d027e0db9f97a36ac0b82c79290a574b2a8d
      * @return Datebase
      */
     public static function instance() {
@@ -92,11 +72,7 @@ class Core_Database {
      * @param string Запрос к базе
      * @return mixed 
      */
-<<<<<<< HEAD
     public function query( $sql, $type = 1 ) {
-=======
-    public function query( $sql, $type = 'OUT' ) {
->>>>>>> 1687d027e0db9f97a36ac0b82c79290a574b2a8d
 
         $this->_connection or $this->connect();
 
@@ -107,7 +83,6 @@ class Core_Database {
             return mysql_errno($this->_connection);
 	}
 
-<<<<<<< HEAD
         if( $type == 1) {
             return $this->as_array( $result );
         } elseif($type == 2) {
@@ -115,10 +90,6 @@ class Core_Database {
                         'id'    => mysql_insert_id($this->_connection),
                         'count' => mysql_affected_rows($this->_connection)
                     );
-=======
-        if( $type === 'OUT') {
-            return $this->as_array( $result );
->>>>>>> 1687d027e0db9f97a36ac0b82c79290a574b2a8d
         } else {
             return mysql_affected_rows($this->_connection);
         }
@@ -131,22 +102,13 @@ class Core_Database {
      * @return array
      */
     public function as_array( $row ) {
-<<<<<<< HEAD
         $result = array();
         if( mysql_affected_rows($this->_connection) > 1 ) {            
-=======
-        if( mysql_affected_rows($this->_connection) > 1 ) {
-            $result = array();
->>>>>>> 1687d027e0db9f97a36ac0b82c79290a574b2a8d
             while( $item = mysql_fetch_assoc($row) ) {
                 $result[] = $item;
             }
         } else {
-<<<<<<< HEAD
             $result = mysql_fetch_assoc($row);
-=======
-            $result = array( '0' => mysql_fetch_assoc($row) );
->>>>>>> 1687d027e0db9f97a36ac0b82c79290a574b2a8d
         }
         return $result;
     }
@@ -175,12 +137,9 @@ class Core_Database {
     private function disconnect() {
 
     }
-<<<<<<< HEAD
 
     public function  __destruct() {
         
     }
-=======
->>>>>>> 1687d027e0db9f97a36ac0b82c79290a574b2a8d
 }
 ?>
