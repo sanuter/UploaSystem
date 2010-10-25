@@ -23,12 +23,13 @@ if( Request::get('check','post') === NULL ) {
     }
 
     $sql = Files::read(INSTALLPATH.DIRECTORY_SEPARATOR.'bases.sql');
-    $sql = str_replace('$_', $config['base']['prefix'], $sql);
+    $sql = str_replace('$__', $config['base']['prefix'], $sql);
 
-    var_dump($sql);
-
-    $db = Database::instance($config);
-    $db->query($sql);
+    $db = Database::instance($config['base']);
+    if($db->test()) {
+        echo $sql;
+        $db->query($sql);
+    }
 
 
 }
