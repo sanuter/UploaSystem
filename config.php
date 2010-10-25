@@ -13,7 +13,7 @@ return array(
                   ),
     'base_url' => '/uploadsystem/',
     'files'    => array(
-                    'onpage' => 5
+                    'onpage' => 10
                   ),
 )
 ?>
