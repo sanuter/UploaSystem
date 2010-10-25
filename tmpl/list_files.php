@@ -47,40 +47,10 @@
             <td><a href="<?php echo Url::root().'vid/?file='.$file['id'] ?>">Показать файл</a></td>
             <?php } ?>
             <?php } ?>
-        </tr>
-        <tr>
-            <td colspan="6">
-                <?php if( $file['comment'] == 1 ) { ?>
-                <div>
-                <?php if(  isset( $comments[$file['id']] ) ) {
-                            if( $comments[$file['id']] === NULL ) {
-                                ?>
-                                    <form action="<?php echo Url::root() ?>" method="post">
-                                        <legend>Добавить комментарий</legend>
-                                        <input type="textarea" name="addcomment" cols="40" rows="3" />
-                                        <input type="submit" value="Добавить комментарий" />
-                                    </form>
-                                <?php
-                            } else {
-                                echo $comments[$file['id']]; ?>
-                                <form action="<?php echo Url::root() ?>" method="post">
-                                        <legend>Добавить комментарий</legend><br/>
-                                        <textarea name="addcomment" cols="40" rows="3"></textarea>
-                                        <input type="hidden" name="comments" value="<?php echo $file['id'] ?>" />
-                                        <input type="submit" value="Добавить комментарий" />
-                                </form>
-                                <?php
-                            }
-                      } else { ?>
-                <form action="<?php echo Url::root() ?>" method="post">
-                <input type="hidden" name="comments" value="<?php echo $file['id'] ?>" />
-                <input type="submit" value="Просмотр комментариев" />
-                </form>    
-                <?php } ?>
-                </div>
-                <?php }  ?>
-            </td>
-        </tr>
+            <?php if (Users::current_user() !== NULL || $file['comment'] == 1) { ?>
+            <td><a href="<?php echo Url::root().'comments/?file='.$file['id'] ?>">Комментарии</a></td>
+            <?php } ?>
+        </tr>        
     <?php $num++; ?>
     <?php } ?>
     <?php } ?>

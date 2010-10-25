@@ -27,8 +27,12 @@ class Core_Database {
     const UPDATE = 3;
     const DELETE = 4;
 
-    private function  __construct() {
-        $this->_config = UploadSystem::$config['base'];
+    private function  __construct( $config = NULL ) {
+        if( $config !== NULL) {
+            $this->_config = $config;
+        } else {
+            $this->_config = UploadSystem::$config['base'];
+        }
         Database::$instance = $this;
     }
     
@@ -37,9 +41,9 @@ class Core_Database {
      *
      * @return Datebase
      */
-    public static function instance() {
+    public static function instance( $config = NULL) {
            if( self::$instance === NULL ) {
-               self::$instance = new self();
+               self::$instance = new self( $config );
            }
            return self::$instance;
     }
@@ -52,6 +56,12 @@ class Core_Database {
     private function connect() {
            $this->_connection = mysql_connect($this->_config['hostname'], $this->_config['username'], $this->_config['password'], TRUE);
            $this->_select_db($this->_config['database']);
+           $this->query("SET NAMES 'utf8'", 2);
+    }
+
+    public function test()
+    {
+        return (function_exists( 'mysql_connect' ));
     }
 
     /**
@@ -60,13 +70,13 @@ class Core_Database {
      * @param string имя базы
      */
     private function _select_db( $database ) {
-        if ( ! mysql_select_db($database, $this->_connection))
+        if ( !mysql_select_db($database, $this->_connection) )
 	{
 
 	}
     }
 
-    /**
+     /**
      * Выполнение запроса к базе и возврат результата
      * 
      * @param string Запрос к базе
@@ -75,6 +85,8 @@ class Core_Database {
     public function query( $sql, $type = 1 ) {
 
         $this->_connection or $this->connect();
+
+        $sql = str_replace('$__', $this->_config['prefix'], $sql);
 
         $this->last_sql = $sql;
 

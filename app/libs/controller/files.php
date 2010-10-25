@@ -29,22 +29,12 @@ class Controller_Files extends Controller_Main {
             $page = Request::get('page');
         } else {
             $page = 0;
-        }
-
-        if(Request::get('comments') !== NULL) {
-            $this->_all_tree = Model::factory('files')->load_comments( Request::get('comments') );
-
-            if( !empty( $this->_all_tree ) ) {
-                $comments = $this->buid_comments( $comments, $this->_all_tree );
-            }
-        }  
+        }        
 
         if( $files = Model::factory('files')->files_list( $sort, $order, $page ) ){
             $this->_request->response .= View::factory( 'list_files' )
                     ->set( 'files', $files )
-                    ->set( 'page', $page );
-                    //->set( 'comments', array( $this->_comment_id => $comments ) );
-            $this->_request->response .= View::factory('pagination')
+                    ->set( 'page', $page )                   
                     ->set('all', Model::factory('files')->all())
                     ->set('onpage', '5');
         } else {

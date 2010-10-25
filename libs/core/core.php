@@ -95,5 +95,14 @@ class Core_Core {
     public static function get_paths() {
         return self::$_paths;
     }
+
+    public static function add_paths( $path = NULL ) {
+        if( $path !== NULL ) {   
+            self::$_paths[] = $path;
+            return TRUE;            
+        } else {
+            return FALSE;
+        }
+    }
 }
 ?>

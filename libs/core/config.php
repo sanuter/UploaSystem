@@ -32,10 +32,11 @@ class Core_Config {
      * Загрузка конфигурации
      *
      * @param string Путь к файлу
+     * @param string Директория
      * @return array Конфигурация
      */
-    public function load( $file ) {
-        if($config = UploadSystem::find_file('', $file)) {
+    public static function load( $file, $dir='' ) {
+        if($config = UploadSystem::find_file( $dir, $file )) {
             return self::$instance = require $config;
         }
         return self::$instance;

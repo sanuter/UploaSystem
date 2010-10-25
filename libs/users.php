@@ -65,7 +65,7 @@ class Users extends Core_Users {
 
         if(is_string($password)) $password = md5($password);
 
-        $result = $this->_db->query('SELECT * FROM users WHERE email = '.$this->_db->escape($username).' AND password = '.$this->_db->escape($password).'');
+        $result = $this->_db->query('SELECT * FROM $__users WHERE email = '.$this->_db->escape($username).' AND password = '.$this->_db->escape($password).'');
         if($result) {       
             $this->_session->set( 'user', array_merge( $result, array( 'path' => Files::dir_user( $result['email'] ) ) ) );
             return TRUE;

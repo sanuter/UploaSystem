@@ -160,32 +160,30 @@ class Core_Request {
      * @param string Тип массива
      * @return string
      */
-    public static function get( $key, $method = 'get') {
+    public static function get( $key, $method = 'get', $default = NULL) {
         if( $method === 'get' ) {
-            return self::xss($_GET[$key]);
+            return self::xss($_GET[$key], $default);
         } elseif( $method = 'post' ) {
-            return self::xss($_POST[$key]);
+            return self::xss($_POST[$key], $default);
         } else {
-            return NULL;
+            return ($default === NULL)? NULL : $default;
         }
     }
 
-    public static function xss( $value ) {
-
+    public static function xss( $value, $default = NULL ) {
         $result = NULL;
-
         if(is_array($value)) {
             $result = array();
             foreach($value as $key=>$item) {
                 $result[$item] = Filter::xss_filter($item);
             }
+            return (empty($result))? NULL : $result;
         }
-
         if(is_string($value)) {
             $result = Filter::xss_filter($value);
-        }
+            return (empty($result))? $default : $result;
+        }        
         
-        return (empty($result))? NULL : $result;
     }
 
     /**

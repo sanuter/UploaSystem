@@ -5,6 +5,7 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php
  */
 ?>
+<script type="text/javascript" src="<?php echo Files::media('login.js') ?>"></script>
 <div>
     <form action="<?php echo Url::root();?>login" method="post">
         <div>

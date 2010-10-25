@@ -35,15 +35,15 @@ class Files extends Core_Files {
     public static function file_del( $file = NULL ) {
         if( $file !== NULL) {           
             $db = Database::instance();
-            $fname = $db->query('SELECT name FROM files WHERE id='.$file.'');
+            $fname = $db->query('SELECT name FROM $__files WHERE id='.$file.'');
             $fname = realpath(Users::instance()->info->path).DIRECTORY_SEPARATOR.$fname['name'];
 
             if( is_file( $fname ) ) {
                 if( unlink($fname) ) {
-                    $db->query('DELETE FROM files WHERE id = '.$file.'',4);
-                    $db->query('DELETE FROM files_param WHERE files_id = '.$file.'',4);
-                    $db->query('DELETE FROM comments_tree WHERE item_id IN (SELECT id FROM comments WHERE files_id = '.$file.')',4);
-                    $db->query('DELETE FROM comments WHERE comments.files_id = '.$file.'',4);
+                    $db->query('DELETE FROM $__files WHERE id = '.$file.'',4);
+                    $db->query('DELETE FROM $__files_param WHERE files_id = '.$file.'',4);
+                    $db->query('DELETE FROM $__comments_tree WHERE item_id IN (SELECT id FROM comments WHERE files_id = '.$file.')',4);
+                    $db->query('DELETE FROM $__comments WHERE comments.files_id = '.$file.'',4);
                 }
             }
         }
@@ -62,15 +62,15 @@ class Files extends Core_Files {
         
         $db    = Database::instance();
         $limit = 5;
-              
+               
         $order = 'f.'.$order;
 
         $add_filter='';
 
         if( Users::current_user() !== NULL ) {
-            $add_filter = ' AND f.id IN (SELECT files_id FROM files_param WHERE users_id = '.Users::current_user().')';
+            $add_filter = ' AND f.id IN (SELECT files_id FROM $__files_param WHERE users_id = '.Users::current_user().')';
         } else {
-            $add_filter = ' AND f.id IN (SELECT files_id FROM files_param WHERE visibly = 1)';
+            $add_filter = ' AND f.id IN (SELECT files_id FROM $__files_param WHERE visibly = 1)';
         }
 
         $files = $db->query('SELECT 
@@ -81,9 +81,9 @@ class Files extends Core_Files {
                 fp.visibly as vid,
                 u.email as user
             FROM
-                files as f,
-                files_param as fp,
-                users as u
+                $__files as f,
+                $__files_param as fp,
+                $__users as u
             WHERE
                 fp.users_id=u.id AND f.id=fp.files_id '.$add_filter.'
             ORDER BY
@@ -104,9 +104,9 @@ class Files extends Core_Files {
         $db = Database::instance();
 
         if( Users::current_user() !== NULL ) {
-            $sql = 'SELECT COUNT(files_id) as items FROM files_param WHERE users_id = '.Users::current_user().'';
+            $sql = 'SELECT COUNT(files_id) as items FROM $__files_param WHERE users_id = '.Users::current_user().'';
         } else {
-            $sql = 'SELECT COUNT(files_id) as items FROM files_param WHERE visibly = 1';
+            $sql = 'SELECT COUNT(files_id) as items FROM $__files_param WHERE visibly = 1';
         }       
 
         return $db->query( $sql );
@@ -122,12 +122,12 @@ class Files extends Core_Files {
         if( $id !== NULL) {
             $db = Database::instance();
             
-            $type = $db->query('SELECT comment FROM files_param WHERE files_id = '.(int)$id);
+            $type = $db->query('SELECT comment FROM $__files_param WHERE files_id = '.(int)$id);
 
             if($type['comment'] == 1) {
-                $db->query('UPDATE files_param SET comment=0 WHERE files_id = '.(int)$id, 'IN');
+                $db->query('UPDATE $__files_param SET comment=0 WHERE files_id = '.(int)$id, 'IN');
             } else {
-                $db->query('UPDATE files_param SET comment=1 WHERE files_id = '.(int)$id, 'IN');
+                $db->query('UPDATE $__files_param SET comment=1 WHERE files_id = '.(int)$id, 'IN');
             }
 
             return TRUE;
@@ -146,12 +146,12 @@ class Files extends Core_Files {
         if( $id !== NULL) {
             $db = Database::instance();
 
-            $type = $db->query('SELECT visibly FROM files_param WHERE files_id = '.(int)$id);
+            $type = $db->query('SELECT visibly FROM $__files_param WHERE files_id = '.(int)$id);
 
             if($type['visibly'] == 1) {
-                $db->query('UPDATE files_param SET visibly=0 WHERE files_id = '.(int)$id, 3 );
+                $db->query('UPDATE $__files_param SET visibly=0 WHERE files_id = '.(int)$id, 3 );
             } else {
-                $db->query('UPDATE files_param SET visibly=1 WHERE files_id = '.(int)$id, 3 );
+                $db->query('UPDATE $__files_param SET visibly=1 WHERE files_id = '.(int)$id, 3 );
             }
 
             return TRUE;
@@ -179,20 +179,36 @@ class Files extends Core_Files {
         $db      = Database::instance();
         $request = Request::instance();
 
-        $result = $db->query( 'INSERT INTO files (`name`, `ip`, `agent` )
+        $result = $db->query( 'INSERT INTO $__files (`name`, `ip`, `agent` )
             VALUES(
                 '.$db->escape($filename).',
                 '.$db->escape($request->client_ip).',
                 '.$db->escape($request->user_agent).'
         );', 2 );
 
-        $db->query( 'INSERT INTO files_param (`files_id`, `users_id`, `comment`, `visibly` )
+        $db->query( 'INSERT INTO $__files_param (`files_id`, `users_id`, `comment`, `visibly` )
             VALUES(
                 '.$db->escape($result['id']).',
                 '.$db->escape(Users::current_user()).',
                 '.$db->escape(0).',
                 '.$db->escape(0).'
         );', 2 );
+    }
+
+    public static function media( $file ) {
+        $temp = pathinfo($file);
+        $type = $temp['extension'];
+        unset($temp);
+        if( $type == 'js' ) {
+            return Url::template().'media/js/'.$file;
+        } elseif( $type == 'css') {
+            return Url::template().'media/css/'.$file;
+        } elseif( in_array( strtolower($type), array('png','jpg','gif') )) {
+            return Url::template().'media/images/'.$file;
+        } else {
+            return NULL;
+        }
+
     }
 }
 ?>

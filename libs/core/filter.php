@@ -9,7 +9,7 @@
 class Core_Filter {
 
     public static function xss_filter( $value ) {
-        $value = htmlentities($value, ENT_QUOTES);
+        $value = htmlentities($value, ENT_QUOTES, 'utf-8');
 
         if(get_magic_quotes_gpc ()) {
             $value = stripslashes ($value);

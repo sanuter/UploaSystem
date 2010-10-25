@@ -69,5 +69,19 @@ class Core_Files {
 
 	return FALSE;
     }
+
+    public static function read( $filename ) {
+
+		$file = fopen($filename, 'r');
+		$block_size = 1024 * 8;
+                $memfile = null;
+
+		while ( ! feof($file)) {
+                    $memfile .= fread($file, $block_size);
+		}
+
+		fclose($file);
+		return $memfile;
+	}
 }
 ?>
