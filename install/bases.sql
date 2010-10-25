@@ -5,7 +5,7 @@ CREATE TABLE `$__comments` (
   `notation` text NOT NULL,
   `data` timestamp NOT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=4;
+) TYPE=MyISAM AUTO_INCREMENT=1;
 
 CREATE TABLE `$__comments_tree` (
   `item_id` int(11) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE `$__files` (
   `ip` varchar(15) NOT NULL,
   `agent` text NOT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=29;
+) TYPE=MyISAM AUTO_INCREMENT=1;
 
 CREATE TABLE `$__files_param` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -29,11 +29,11 @@ CREATE TABLE `$__files_param` (
   `comment` tinyint(1) NOT NULL,
   `visibly` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=18;
+) TYPE=MyISAM AUTO_INCREMENT=1;
 
 CREATE TABLE `$__users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=5;
+) TYPE=MyISAM AUTO_INCREMENT=1;
