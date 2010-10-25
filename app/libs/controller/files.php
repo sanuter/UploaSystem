@@ -29,14 +29,16 @@ class Controller_Files extends Controller_Main {
             $page = Request::get('page');
         } else {
             $page = 0;
-        }        
+        }
 
         if( $files = Model::factory('files')->files_list( $sort, $order, $page ) ){
             $this->_request->response .= View::factory( 'list_files' )
                     ->set( 'files', $files )
-                    ->set( 'page', $page )                   
+                    ->set( 'page', $page );
+            $this->_request->response .= View::factory( 'pagination' )
                     ->set('all', Model::factory('files')->all())
-                    ->set('onpage', '5');
+                    ->set( 'page', $page )
+                    ->set('onpage', UploadSystem::$config['files']['onpage']);
         } else {
             $this->_request->response .= View::factory( 'files_no' );
         }

@@ -23,7 +23,7 @@
             <th>Ссылка</th>
         </tr>
     <?php if( $files !== FALSE ) {?>
-   <?php $num = 1; ?>
+   <?php $num = ($page !== 0)? $page+1 : 1; ?>
     <?php foreach( $files as $file ) {?>    
         <tr>
             <td>

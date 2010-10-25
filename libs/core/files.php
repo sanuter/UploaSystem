@@ -40,36 +40,16 @@ class Core_Files {
      * @param intrger chmod маска
      * @return false  при ошибке
      */
-    public static function save(array $file, $filename = NULL, $directory = NULL, $chmod = 0644)
-    {
-        if ( ! isset($file['tmp_name']) OR ! is_uploaded_file($file['tmp_name']))
-	{
-            return FALSE;
-	}
-
-        if (self::$remove_spaces === TRUE)
-	{
-            $filename = preg_replace('/\s+/', '_', $filename);
-	}
-
-	if ($directory === NULL)
-	{
-            $directory = self::$default_directory;
-	}
-
-	$filename = realpath($directory).DIRECTORY_SEPARATOR.$filename;
-
-	if (move_uploaded_file($file['tmp_name'], $filename))
-	{
-            if ($chmod !== FALSE)
-            {
-                chmod($filename, $chmod);
-            }
-	}
-
-	return FALSE;
+    public static function save(array $file, $filename = NULL, $directory = NULL, $chmod = 0644) {
+        
     }
 
+    /**
+     * Чтение файла в память 
+     * 
+     * @param string путь к файлу
+     * @return string 
+     */
     public static function read( $filename ) {
 
 		$file = fopen($filename, 'r');

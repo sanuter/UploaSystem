@@ -61,7 +61,7 @@ class Files extends Core_Files {
     public static function files_list( $sort = 'DESC', $order = 'data', $start = 0 ) {
         
         $db    = Database::instance();
-        $limit = 5;
+        $limit = UploadSystem::$config['files']['onpage'];
                
         $order = 'f.'.$order;
 
@@ -169,30 +169,68 @@ class Files extends Core_Files {
      * @param intrger chmod маска    
      */
     public static function  save(array $file, $filename = NULL, $directory = NULL, $chmod = 0644) {
-        parent::save($file, $filename, $directory, $chmod);
 
-        if (parent::$remove_spaces === TRUE)
-	{
+        if (parent::$remove_spaces === TRUE) {
+            $filename = preg_replace('/\s+/', '_', $filename);
+	}
+        
+        if ($directory === NULL) {
+            $directory = parent::$default_directory;
+	}  
+        
+        if ( ! isset($file['tmp_name']) OR ! is_uploaded_file($file['tmp_name'])) {
+            return FALSE;
+	}
+
+        if (parent::$remove_spaces === TRUE) {
             $filename = preg_replace('/\s+/', '_', $filename);
 	}
 
-        $db      = Database::instance();
-        $request = Request::instance();
+	if ($directory === NULL) {
+            $directory = self::$default_directory;
+	}
 
-        $result = $db->query( 'INSERT INTO $__files (`name`, `ip`, `agent` )
-            VALUES(
-                '.$db->escape($filename).',
-                '.$db->escape($request->client_ip).',
-                '.$db->escape($request->user_agent).'
-        );', 2 );
+        if(is_file(realpath($directory).DIRECTORY_SEPARATOR.$filename)) {
+            $i=0;
+            do {
+                $i++;
+                $number = sprintf("%03d", $i );
+                $temp = $number.'_'.$filename;
+            } while(is_file(realpath($directory).DIRECTORY_SEPARATOR.$temp));
+            $filedb = $filename = $temp;
+        } else {
+            $filedb = $filename;
+        }
 
-        $db->query( 'INSERT INTO $__files_param (`files_id`, `users_id`, `comment`, `visibly` )
-            VALUES(
-                '.$db->escape($result['id']).',
-                '.$db->escape(Users::current_user()).',
-                '.$db->escape(0).',
-                '.$db->escape(0).'
-        );', 2 );
+	$filename = realpath($directory).DIRECTORY_SEPARATOR.$filename;
+
+	if (move_uploaded_file($file['tmp_name'], $filename))
+	{
+            if ($chmod !== FALSE)
+            {
+                chmod($filename, $chmod);
+            }
+
+            $db      = Database::instance();
+            $request = Request::instance();
+
+            $result = $db->query( 'INSERT INTO $__files (`name`, `ip`, `agent` )
+                VALUES(
+                    '.$db->escape($filedb).',
+                    '.$db->escape($request->client_ip).',
+                    '.$db->escape($request->user_agent).'
+            );', 2 );
+
+            $db->query( 'INSERT INTO $__files_param (`files_id`, `users_id`, `comment`, `visibly` )
+                VALUES(
+                    '.$db->escape($result['id']).',
+                    '.$db->escape(Users::current_user()).',
+                    '.$db->escape(0).',
+                    '.$db->escape(0).'
+            );', 2 );
+            }
+
+	return FALSE;
     }
 
     public static function media( $file ) {

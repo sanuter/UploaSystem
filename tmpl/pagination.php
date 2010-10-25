@@ -7,16 +7,24 @@
 ?>
 <div> Страницы: 
 <?php
-if( $all > 0) {
+if( $all > $onpage) {
 
-    $pages = abs($all%$onpage);
+   $pages = abs($all%$onpage);
 
     if( $pages > 1 ) {
         for( $i=1; $i<=$pages; $i++ ) {
             if( $i == 1) {
-                echo '<span><a href="'.Url::current().'" alt="Страница '.$i.'">'.$i.'</a></span> ';
+                if( $page != 0 ) {
+                    echo '<span><a href="'.Url::current().'" alt="Страница '.$i.'">'.$i.'</a></span> ';
+                } else {
+                    echo '<span>'.$i.'</span> ';
+                }
             } else {
-                echo '<span><a href="'.Url::current().'?page='.(($i-1)*$onpage).'" alt="Страница '.$i.'">'.$i.'</a></span> ';
+                 if($page == (($i-1)*$onpage)){
+                    echo '<span>'.$i.'</span> ';
+                 } else {
+                    echo '<span><a href="'.Url::current().'?page='.(($i-1)*$onpage).'" alt="Страница '.$i.'">'.$i.'</a></span> ';
+                 }
             }
         }
     }
