@@ -35,6 +35,11 @@ require LIBSPATH.'uploadsystem.php';
 spl_autoload_register(array('UploadSystem', 'auto_load'));
 ini_set('unserialize_callback_func', 'spl_autoload_call');
 
+if(is_dir('install1')) {
+    define('INSTALLPATH', realpath('install'));
+    return include INSTALLPATH.DIRECTORY_SEPARATOR.'install.php';
+}
+
 UploadSystem::init();
 
 $routers = array(

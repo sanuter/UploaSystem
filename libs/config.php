@@ -4,5 +4,5 @@
  * @copyright  Copyright (C) 2004 - 2010. Home Company
  * @license    http://www.opensource.org/licenses/bsd-license.php
  */
-class config extends Core_Config {}
+class Config extends Core_Config {}
 ?>
