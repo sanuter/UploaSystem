@@ -6,7 +6,36 @@
         Purpose of the stylesheet follows.
 */
 
-/* 
-   TODO customize this sample style
-   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
-*/
+.message {
+    padding: 10px;
+    margin: 10px;
+    font-size: larger;
+    font-weight: bolder;
+    background-color: aliceblue;
+    color: black;
+    border: 1px solid brown;
+}
+
+.login {
+    width: 350px;
+    margin: auto;
+    padding: 10px;
+}
+
+.login input {
+    width: 200px;
+    padding: 5px;
+    margin: 10px;
+    border: 1px solid darkgray;
+    vertical-align: middle;
+}
+
+.login .head {
+    display: block;
+    font-size: larger;
+    padding: 10px;
+    width: 50px;
+    text-align: right;
+    vertical-align: middle;
+    float: left;
+}
