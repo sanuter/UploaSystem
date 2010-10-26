@@ -7,20 +7,21 @@
 ?>
 <div> Страницы: 
 <?php
+
 if( $all > $onpage) {
 
-   $pages = abs($all%$onpage);
+   $pages = ceil($all/$onpage);
 
-    if( $pages > 1 ) {
+    if( $pages > 0 ) {
         for( $i=1; $i<=$pages; $i++ ) {
             if( $i == 1) {
-                if( $page != 0 ) {
+                if( $current_page != 0 ) {
                     echo '<span><a href="'.Url::current().'" alt="Страница '.$i.'">'.$i.'</a></span> ';
                 } else {
                     echo '<span>'.$i.'</span> ';
                 }
             } else {
-                 if($page == (($i-1)*$onpage)){
+                 if($current_page == (($i-1)*$onpage)){
                     echo '<span>'.$i.'</span> ';
                  } else {
                     echo '<span><a href="'.Url::current().'?page='.(($i-1)*$onpage).'" alt="Страница '.$i.'">'.$i.'</a></span> ';

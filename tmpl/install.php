@@ -5,18 +5,19 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php
  */
 ?>
+<link type="text/css" rel="stylesheet" media="all" href="<?php echo Files::media('install.css') ?>" />
 <form action="<?php Url::current()?>" method="post">
-<div>
-    Настройки системы
-    <div>
+<div class="install_body">
+    <div class="install_head">Настройки системы</div>
         <legend>Настройки базы</legend>
-        <div>
+        <div class="install_body">
             <?php foreach($config['base'] as $name=>$value) { ?>
-            <legend><?php echo ucfirst($name) ?>: </legend><input type="text" name="<?php echo $name ?>" value="<?php echo $value ?>"/>
+            <div class="install_input">
+                <span><?php echo ucfirst($name) ?>: </span><input type="text" name="<?php echo $name ?>" value="<?php echo $value ?>"/>
+            </div>
             <?php } ?>
         </div>
-    </div>
-    <div>
+    <div class="install_input">
         <legend>Директория системы: </legend><input type="text" name="base_url" value="<?php echo $config['base_url'] ?>"/>
     </div>   
 </div>
