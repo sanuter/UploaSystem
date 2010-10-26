@@ -5,7 +5,7 @@
     'username' => 'root',
     'password' => '',
     'database' => 'uploadsystem',
-    'prefix' => 'upload_',
+    'prefix' => 'test_',
   ),
   'session' => 
   array (
