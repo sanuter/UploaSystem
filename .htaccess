@@ -1,5 +1,6 @@
 RewriteEngine On
 
+# ”казывать путь к корневой папке системы
 RewriteBase /uploadsystem/
 
 <Files .*>
