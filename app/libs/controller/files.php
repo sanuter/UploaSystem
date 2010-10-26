@@ -47,7 +47,11 @@ class Controller_Files extends Controller_Main {
                     ->set( 'current_page', $page )
                     ->set( 'onpage', UploadSystem::$config['files']['onpage']);
         } else {
-            $this->_request->response .= View::factory( 'files_no' );
+            if( $this->_user->info !== NULL ) {
+                $this->_request->response .= View::factory( 'files_no' );
+            } else {
+                $this->_request->response .= View::factory( 'guest_no' );
+            }
         }
 
         if( $this->_user->info !== NULL ) {
