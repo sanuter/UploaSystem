@@ -1,3 +1,4 @@
+
 CREATE TABLE `$__comments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -37,3 +38,7 @@ CREATE TABLE `$__users` (
   `password` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) TYPE=MyISAM AUTO_INCREMENT=1;
+
+INSERT INTO `$__users` (`id`, `email`, `password`) VALUES
+(1, 'guest', 'guest'),
+(2, 'test@tut.com', '25d55ad283aa400af464c76d713c07ad');

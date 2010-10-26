@@ -17,6 +17,8 @@ class Controller_Files extends Controller_Main {
             } else {
                 $sort = 'DESC';
             }
+        } else {
+           $sort = 'DESC';
         }
 
         if(Request::get('sort') !== NULL) {
@@ -36,9 +38,9 @@ class Controller_Files extends Controller_Main {
                     ->set( 'files', $files )
                     ->set( 'page', $page );
             $this->_request->response .= View::factory( 'pagination' )
-                    ->set('all', Model::factory('files')->all())
-                    ->set( 'page', $page )
-                    ->set('onpage', UploadSystem::$config['files']['onpage']);
+                    ->set( 'all', Model::factory('files')->all())
+                    ->set( 'current_page', $page )
+                    ->set( 'onpage', UploadSystem::$config['files']['onpage']);
         } else {
             $this->_request->response .= View::factory( 'files_no' );
         }

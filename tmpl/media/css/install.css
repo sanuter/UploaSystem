@@ -1,0 +1,57 @@
+/* 
+    Document   : install
+    Created on : 26.10.2010, 12:17:26
+    Author     : Aliaksandr Treitsiak
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+.install_body {
+    display: block;
+    padding: 5px;
+}
+
+.install_head {
+    padding: 10px;
+    font-size: larger;
+    font-weight: bolder;
+}
+
+.install_input {
+    padding: 5px;
+}
+
+.install_input span {
+    width: 200px;
+    font-weight: bolder;
+}
+
+.install_message {
+    background-color: gray;
+    width: 100%;
+    height: 30px;
+    color: white;
+    font-weight: bolder;
+    font-size: larger;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.install_success {
+    padding: 5px;
+    color: green;
+    font-weight: bolder;
+    font-size: large;
+}
+
+.install_failed {
+    padding: 5px;
+    color: red;
+    font-weight: bolder;
+    font-size: large;
+}
