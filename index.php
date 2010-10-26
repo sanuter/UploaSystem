@@ -71,6 +71,10 @@ $routers = array(
         'controller' => 'files',
         'action'     => 'upload'
     ),
+    'download' => array(
+        'controller' => 'files',
+        'action'     => 'download'
+    ),
     'show' => array(
         'controller' => 'files',
         'action'     => 'show'

@@ -5,6 +5,7 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php
  */
 ?>
+<div><a href="<?php echo Url::root() ?>">К списку файлов</a></div>
 <div>
     <legend>Комментарии к файлу: <?php echo $info['name'] ?></legend>
 </div>

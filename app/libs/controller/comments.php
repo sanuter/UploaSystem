@@ -12,7 +12,7 @@ class Controller_Comments extends Controller_Main {
     private $_user_id;
 
     public function  before() {
-        parent::before();
+        parent::before($title = 'UploadSystem: Комментарии');
         $this->_user_id = (Users::current_user() !== NULL)? Users::current_user() : '1';
     }
 

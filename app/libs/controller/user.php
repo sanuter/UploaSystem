@@ -7,6 +7,10 @@
 
 class Controller_User extends Controller_Main {
 
+    public function  before() {
+        parent::before($title = 'UploadSystem: Вход');
+    }
+
     public function action_login() {        
         if( $this->_user->info === NULL ) {
             if($this->_user->login( Request::get( 'login', 'post' ), Request::get( 'pass', 'post' ) )) { 

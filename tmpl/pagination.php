@@ -5,7 +5,7 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php
  */
 ?>
-<div> Страницы: 
+
 <?php
 
 if( $all > $onpage) {
@@ -13,6 +13,7 @@ if( $all > $onpage) {
    $pages = ceil($all/$onpage);
 
     if( $pages > 0 ) {
+        echo '<div> Страницы: ';
         for( $i=1; $i<=$pages; $i++ ) {
             if( $i == 1) {
                 if( $current_page != 0 ) {
@@ -28,7 +29,7 @@ if( $all > $onpage) {
                  }
             }
         }
+       echo '</div>';
     }
 }
 ?>
-</div>

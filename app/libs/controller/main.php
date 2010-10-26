@@ -11,8 +11,9 @@ class Controller_Main extends Controller {
         parent::__construct($request);        
     }
 
-    public function before() {
-        $this->_request->response = View::factory( 'head' );
+    public function before( $title = 'UploadSystem' ) {
+        $this->_request->response = View::factory( 'head' )
+                ->set( 'title', $title );
     }
 
     public function after() {

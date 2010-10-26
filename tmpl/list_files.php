@@ -34,7 +34,7 @@
             <td><?php echo $num ?>.</td>
             <td><?php echo $file['name'] ?></td>
             <td><?php echo $file['data'] ?></td>
-            <td><a href="<?php echo Url::root().Files::$default_directory.'/'.md5($file['user']).'/'.$file['name'] ?>">Загрузить</a></td>
+            <td><a href="<?php echo Url::root().'download/?file='.$file['id'] ?>">Загрузить</a></td>
             <?php if( Users::instance()->info->id !== NULL ) { ?>
             <?php if ($file['comment'] == 1 ) { ?>
             <td><a href="<?php echo Url::root().'show/?file='.$file['id'] ?>">Скрыть комментарии</a></td>           

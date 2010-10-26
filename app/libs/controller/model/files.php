@@ -25,7 +25,17 @@ class Controller_Model_Files extends Model {
 
     public function file_info( $id ) {
         $db    = Database::instance();
-        return $db->query('SELECT name, data FROM $__files WHERE id = '.$id );
+        return $db->query('SELECT
+                                f.name as name,
+                                f.data as data,
+                                u.email as user
+                           FROM
+                                $__files as f,
+                                $__files_param as fp,
+                                $__users as u
+                           WHERE
+                                f.id = '.$id.' AND fp.files_id = f.id AND u.id = fp.users_id'
+                          );
     }
 
     public function files_delete( $files ) {

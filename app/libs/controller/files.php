@@ -5,7 +5,12 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php
  */
 
-class Controller_Files extends Controller_Main { 
+class Controller_Files extends Controller_Main {
+
+    public function  before() {
+        parent::before($title = 'UploadSystem: Файлы');
+    }
+
     public function action_index() {
         if( $this->_user->info !== NULL ) {
             $this->_request->response .= View::factory( 'upload_form' );
@@ -67,6 +72,16 @@ class Controller_Files extends Controller_Main {
             }
         } else {
             $this->_request->redirect( Url::root().'login');
+        }
+    }
+
+    public function action_download() {
+        if(Request::get('file') !== NULL) {
+            $info = Model::factory('files')->file_info(Request::get('file'));   
+            header('Content-type: application/*');
+            header('Content-Length: ' . filesize(FILESPATH.md5($info['user']).DIRECTORY_SEPARATOR.$info['name']));
+            header('Content-Disposition: attachment; filename="'.$info['name'].'"');
+            readfile(Url::root().Files::$default_directory.'/'.md5($info['user']).'/'.$info['name']);
         }
     }
 
