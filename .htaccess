@@ -1,6 +1,6 @@
 RewriteEngine On
 
-# Указывать путь к корневой папке системы
+# пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 RewriteBase /uploadsystem/
 
 <Files .*>
@@ -8,7 +8,7 @@ RewriteBase /uploadsystem/
 	Deny From All
 </Files>
 
-RewriteRule ^(?:libs|app)\b.* index.php/$0 [L]
+RewriteRule ^(?:libs|app|files)\b.* index.php/$0 [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
