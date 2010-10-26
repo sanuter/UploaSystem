@@ -15,7 +15,7 @@ class Controller_User extends Controller_Main {
         if( $this->_user->info === NULL ) {
             if($this->_user->login( Request::get( 'login', 'post' ), Request::get( 'pass', 'post' ) )) { 
                 $this->_request->redirect( Url::root().'list');
-            } else {
+            } else {                
                 $this->_request->response .= View::factory( 'login' );
             }
         } else {            

@@ -3,5 +3,6 @@
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <title><?php echo $title ?></title>
+        <link type="text/css" rel="stylesheet" media="all" href="<?php echo Files::media('main.css') ?>" />
     </head>
 <body>

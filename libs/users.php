@@ -60,6 +60,7 @@ class Users extends Core_Users {
    public function login( $username, $password ) {
        
         if( empty($username) || empty($password) ) {
+            Message::add('Неверный логин или пароль.');
             return FALSE;
         }
 
@@ -70,11 +71,13 @@ class Users extends Core_Users {
             $this->_session->set( 'user', array_merge( $result, array( 'path' => Files::dir_user( $result['email'] ) ) ) );
             return TRUE;
         } else {
+            Message::add('Неверный логин или пароль.');
             return FALSE;
         }
    }
 
    public function logout() {
+        Message::add('Вы вышли из системы.');
         return $this->_session->destroy();
    }
 }

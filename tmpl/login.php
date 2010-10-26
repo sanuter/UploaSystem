@@ -5,15 +5,14 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php
  */
 ?>
-<script type="text/javascript" src="<?php echo Files::media('login.js') ?>"></script>
-<div>
+<div class="login">
     <form action="<?php echo Url::root();?>login" method="post">
         <div>
-            <legend>Логин: </legend>
+            <span class="head">Логин: </span>
             <input type="text" name="login" value="" size="20" />
         </div>
         <div>
-            <legend>Пароль: </legend>
+            <span class="head">Пароль: </span>
             <input type="password" name="pass" value="" size="20" />
         </div>
         <div>
