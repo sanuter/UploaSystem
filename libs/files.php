@@ -42,7 +42,7 @@ class Files extends Core_Files {
                 if( unlink($fname) ) {
                     $db->query('DELETE FROM $__files WHERE id = '.$file.'',4);
                     $db->query('DELETE FROM $__files_param WHERE files_id = '.$file.'',4);
-                    $db->query('DELETE FROM $__comments_tree WHERE item_id IN (SELECT id FROM $__comments WHERE files_id = '.$file.')',4);
+                    $db->query('DELETE FROM $__comments_tree WHERE item_id IN (SELECT id FROM comments WHERE files_id = '.$file.')',4);
                     $db->query('DELETE FROM $__comments WHERE comments.files_id = '.$file.'',4);
                 }
             }
