@@ -11,7 +11,7 @@ return array(
                     'name' => 'uploadsystem',
                     'lifetime' => 3600
                   ),
-    'base_url' => '/uploadsystem/',
+    'base_url' => '/',
     'files'    => array(
                     'onpage' => 25
                   ),
