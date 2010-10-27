@@ -6,14 +6,14 @@
  */
 ?>
 
-<div>
+<div class="files_upload">
     <form action="<?php echo Url::root(); ?>uploadfile" method="post" enctype="multipart/form-data">
         <div>
-            <legend>Выбирете файл для загрузки:</legend>
+            <span>Выбирете файл для загрузки:</span>
             <input type="file" name="uploadfile" />
         </div>
         <div>
-            <input type="submit" value="Загрузить" />
+            <input class="send" type="submit" value="Загрузить" />
         </div>
     </form>
 </div>

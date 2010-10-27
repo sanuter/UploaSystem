@@ -146,7 +146,8 @@ class Core_Request {
      * @param string адрес
      * @param int код состояния 
      */
-    public function redirect( $url, $code = 302 ) {
+    public function redirect( $url = NULL, $code = 302 ) {
+        if( $url === NULL ) $url = Url::current ();
         $this->status = $code;
         $this->headers['Location'] = $url;
         $this->send_headers();

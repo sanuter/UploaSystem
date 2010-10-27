@@ -14,6 +14,11 @@ class Controller_Comments extends Controller_Main {
     public function  before() {
         parent::before($title = 'UploadSystem: Комментарии');
         $this->_user_id = (Users::current_user() !== NULL)? Users::current_user() : '1';
+        if( $this->_user->info !== NULL ) {
+            $this->_request->response .= View::factory('menu_user')->set( 'name' , $this->_user->info->email );
+        } else {
+            $this->_request->response .= View::factory('menu_guest');
+        }
     }
 
     public function action_index() {
@@ -46,6 +51,12 @@ class Controller_Comments extends Controller_Main {
     }
 
     public function action_addcomment() {
+
+        if( Request::get('file','post') === NULL || Request::get('parent','post',0) === NULL ) {
+            Message::add('Ошибка комментария');
+            $this->_request->redirect('list');
+        }
+
         if(Request::get('file','post') !== NULL && Request::get('parent','post',0) !== NULL && Request::get('notation','post') !== NULL) {
             Model::factory('comments')->add_comment(
                     Request::get('file','post'),

@@ -11,11 +11,15 @@ class Controller_User extends Controller_Main {
         parent::before($title = 'UploadSystem: Вход');
     }
 
-    public function action_login() {        
+    public function action_login() {
         if( $this->_user->info === NULL ) {
-            if($this->_user->login( Request::get( 'login', 'post' ), Request::get( 'pass', 'post' ) )) { 
-                $this->_request->redirect( Url::root().'list');
-            } else {                
+            if( Request::get( 'login', 'post' ) !== NULL && Request::get( 'pass', 'post' ) !== NULL ){
+                if($this->_user->login( Request::get( 'login', 'post' ), Request::get( 'pass', 'post' ) )) {
+                    $this->_request->redirect( Url::root().'list');
+                } else {
+                    $this->_request->redirect( Url::root().'login');
+                }
+            } else {
                 $this->_request->response .= View::factory( 'login' );
             }
         } else {            

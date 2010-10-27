@@ -8,12 +8,12 @@
 <div>
 <form action="<?php echo Url::root().'addcomments/' ?>" method="post">
     <div>
-    <textarea cols="30" rows="2" name="notation"></textarea>
+        <textarea class="comment" cols="30" rows="2" name="notation"></textarea>
     </div>
     <input type="hidden" name="file" value="<?php echo $file ?>" />
     <input type="hidden" name="parent" value="<?php echo $parent ?>" />
     <div>
-        <input type="submit" value="Добавить" />
+        <input class="send" type="submit" value="Добавить" />
     </div>
 </form>
 </div>

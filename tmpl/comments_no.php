@@ -5,6 +5,6 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php
  */
 ?>
-<div>
+<div class="files_comments">
     К данному файлу нет комментариев
 </div>

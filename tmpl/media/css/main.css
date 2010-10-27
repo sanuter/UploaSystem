@@ -39,3 +39,161 @@
     vertical-align: middle;
     float: left;
 }
+
+.files_list {
+    width: 100%;
+}
+
+.files_list td {
+    border: 1px solid lightgray;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.files_list th {
+    color: gray;
+    font-size: larger;
+    font-weight: bolder;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid gray;
+}
+
+.files_list a {
+    color: gray;
+    text-decoration: none;
+}
+
+.files_list .title {
+    display: block;
+    float: left;
+}
+
+.files_list .asc {
+    display: block;
+    height: 24px;
+    width: 24px;
+    background: url(../images/asc.png) center center no-repeat;
+    float: left;
+}
+
+.files_list .desc {
+    display: block;
+    height: 24px;
+    width: 24px;
+    background: url(../images/desc.png) center center no-repeat;
+    float: left;
+}
+
+.files_list .download {
+    display: block;
+    height: 24px;
+    width: 24px;
+    background: url(../images/download.png) center center no-repeat;
+}
+
+.files_list .commnet {
+    display: block;
+    height: 24px;
+    width: 24px;
+    background: url(../images/comments.png) center center no-repeat;
+}
+
+.files_list .commnet_yes {
+    display: block;
+    height: 24px;
+    width: 24px;
+    background: url(../images/no.png) center center no-repeat;
+}
+
+.files_list .comment_no {
+    display: block;
+    height: 24px;
+    width: 24px;
+    background: url(../images/yes.png) center center no-repeat;
+}
+
+.files_list .file_visibly {
+    display: block;
+    height: 24px;
+    width: 24px;
+    background: url(../images/no.png) center center no-repeat;
+}
+
+.files_list .file_hidden {
+    display: block;
+    height: 24px;
+    width: 24px;
+    background: url(../images/yes.png) center center no-repeat;
+}
+
+.files_upload {
+    background-color: azure;
+    border: 1px solid gray;
+    padding: 5px;
+}
+
+.files_upload span {
+    padding: 5px;
+    font-size: larger;
+    font-weight: bolder;
+    color: black;
+}
+.files_upload input {
+    border: 1px solid gray;
+    height: 30px;    
+}
+
+.pagination {
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.pagination a {
+    font-size: larger;
+    font-weight: bolder;
+    padding: 3px;
+    color: gray;
+}
+
+.files_comments {
+    padding: 5px;
+}
+
+.files_comments .file {
+    font-size: larger;
+    font-weight: bolder;
+}
+
+.file_comment {
+    padding: 5px;
+}
+
+.file_comment .comment {
+    border: 1px solid gray;
+}
+
+.files_menu {
+    padding: 10px;
+}
+
+.files_menu a {
+    color: gray;
+    font-size: larger;
+    font-weight: bolder;
+}
+
+.files_menu .user {
+    font-size: large;
+    font-weight: bolder;
+    color: black;
+    padding: 0px 10px 0px 10px;
+}
+
+.send {
+    background-color: gray;
+    color: white;
+    width: 100px;
+    height: 30px;
+}

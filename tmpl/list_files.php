@@ -5,22 +5,28 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php
  */
 ?>
+<br/>
 <div>
     <form action="<?php echo Url::root().'delfiles' ?>" method="post">
-    <table width="70%">
+    <table class="files_list" cellspacing="1" cellpadding="1">
         <tr>
-            <th colspan="2">№</th>
+            <th>№</th>
             <th>
-                <a href="<?php echo Url::current().'?sort=name' ?>">Имя файла</a>
-                <a href="<?php echo Url::current().'?sort=name&order=DESC' ?>">1</a>
-                <a href="<?php echo Url::current().'?sort=name&order=ASC' ?>">1</a>
+                <a class="title" href="<?php echo Url::current().'?sort=name' ?>">Имя файла</a>
+                <a class="desc" href="<?php echo Url::current().'?sort=name&order=DESC' ?>" title="По убыванию"></a>
+                <a class="asc" href="<?php echo Url::current().'?sort=name&order=ASC' ?>" title="По возростанию"></a>
             </th>
             <th>
-                <a href="<?php echo Url::current().'?sort=data' ?>">Дата добавления</a>
-                <a href="<?php echo Url::current().'?sort=data&order=DESC' ?>">1</a>
-                <a href="<?php echo Url::current().'?sort=data&order=ASC' ?>">1</a>
+                <a class="title" href="<?php echo Url::current().'?sort=data' ?>">Дата добавления</a>
+                <a class="desc" href="<?php echo Url::current().'?sort=data&order=DESC' ?>" title="По убыванию"></a>
+                <a class="asc" href="<?php echo Url::current().'?sort=data&order=ASC' ?>" title="По возростанию"></a>
             </th>
-            <th>Ссылка</th>
+            <th>Ссылка для загрузки</th>
+            <?php if( Users::instance()->info->id !== NULL ) { ?>
+            <th>Доступ к комментариям</th>
+            <th>Доступ к файлу</th>            
+            <?php } ?>
+            <th>Просмотреть комментарии</th>
         </tr>
     <?php if( $files !== FALSE ) {?>
    <?php $num = ($page !== 0)? $page+1 : 1; ?>
@@ -28,35 +34,36 @@
         <tr>
             <td>
                 <?php if( Users::instance()->info->id !== NULL ) { ?>
-                <input type="checkbox" name="del[]" value="<?php echo $file['id'] ?>" /
+                <input type="checkbox" name="del[]" value="<?php echo $file['id'] ?>" />
                 <?php } ?>
+                <?php echo $num ?>.
             </td>
-            <td><?php echo $num ?>.</td>
             <td><?php echo $file['name'] ?></td>
             <td><?php echo $file['data'] ?></td>
-            <td><a href="<?php echo Url::root().'download/?file='.$file['id'] ?>">Загрузить</a></td>
+            <td><a class="download" href="<?php echo Url::root().'download/?file='.$file['id'] ?>" title="Загрузить"></a></td>
             <?php if( Users::instance()->info->id !== NULL ) { ?>
             <?php if ($file['comment'] == 1 ) { ?>
-            <td><a href="<?php echo Url::root().'show/?file='.$file['id'] ?>">Скрыть комментарии</a></td>           
+            <td><a class="comment_no" href="<?php echo Url::root().'show/?file='.$file['id'] ?>" title="Скрыть комментарии"></a></td>
             <?php } else { ?>
-            <td><a href="<?php echo Url::root().'show/?file='.$file['id'] ?>">Показать комментарии</a></td>           
+            <td><a class="commnet_yes" href="<?php echo Url::root().'show/?file='.$file['id'] ?>" title="Показать комментарии"></a></td>
             <?php } ?>
             <?php if ($file['vid'] == 1 ) { ?>
-            <td><a href="<?php echo Url::root().'vid/?file='.$file['id'] ?>">Скрыть файл</a></td>
+            <td><a class="file_hidden" href="<?php echo Url::root().'vid/?file='.$file['id'] ?>" title="Скрыть файл"></a></td>
             <?php } else { ?>
-            <td><a href="<?php echo Url::root().'vid/?file='.$file['id'] ?>">Показать файл</a></td>
+            <td><a class="file_visibly" href="<?php echo Url::root().'vid/?file='.$file['id'] ?>" title="Показать файл"></a></td>
             <?php } ?>
             <?php } ?>
             <?php if (Users::current_user() !== NULL || $file['comment'] == 1) { ?>
-            <td><a href="<?php echo Url::root().'comments/?file='.$file['id'] ?>">Комментарии</a></td>
+            <td><a class="commnet" href="<?php echo Url::root().'comments/?file='.$file['id'] ?>" title="Комментарии"></a></td>
             <?php } ?>
         </tr>        
     <?php $num++; ?>
     <?php } ?>
     <?php } ?>
     </table>
+    <br/>
     <?php if( Users::instance()->info->id !== NULL ) { ?>
-        <input type="submit" value="Удалить" />
+        <input class="send" type="submit" value="Удалить" />
     <?php } ?>
     </form>
 </div>

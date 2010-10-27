@@ -19,6 +19,7 @@ class Users extends Core_Users {
        parent::__construct();
         $this->_db = Database::instance();
         $this->_session = Session::instance();
+        $this->_request = Request::instance();
         if( $this->_session->get('user') !== NULL ) {
             $this->info = (object)$this->_session->get('user');
         }
@@ -59,26 +60,32 @@ class Users extends Core_Users {
     */
    public function login( $username, $password ) {
        
-        if( empty($username) || empty($password) ) {
-            Message::add('Неверный логин или пароль.');
-            return FALSE;
-        }
+       if( !preg_match("/^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$/", $username) ) {
+           Message::add('Неверный формат логина.');
+           $this->_request->redirect();
+       }
 
-        if(is_string($password)) $password = md5($password);
+       if( !preg_match("/^[a-zA-Z0-9]{8,}$/", $password) ) {
+           Message::add('Пароль менее 8 символов.');
+           $this->_request->redirect();
+       }      
+
+        $password = md5((string)$password);
 
         $result = $this->_db->query('SELECT * FROM $__users WHERE email = '.$this->_db->escape($username).' AND password = '.$this->_db->escape($password).'');
-        if($result) {
+         if(is_array($result)) {
             $this->_session->set( 'user', array_merge( $result, array( 'path' => Files::dir_user( $result['email'] ) ) ) );
             return TRUE;
         } else {
-            Message::add('Неверный логин или пароль.');
-            return FALSE;
+            Message::add('Нет пользователя с такими данными.');
+            $this->_request->redirect();
         }
    }
 
-   public function logout() {
-        Message::add('Вы вышли из системы.');
+   public function logout() {        
         return $this->_session->destroy();
+        Message::add('Вы вышли из системы.');
+        $this->_request->redirect();
    }
 }
 ?>

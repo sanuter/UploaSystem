@@ -13,7 +13,7 @@ class Controller_Main extends Controller {
 
     public function before( $title = 'UploadSystem' ) {
         $this->_request->response = View::factory( 'head' )
-                ->set( 'title', $title );
+                ->set( 'title', $title );        
         $this->_request->response .= View::factory('message')
                 ->set( 'message', Message::get() );
     }

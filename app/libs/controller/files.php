@@ -9,6 +9,11 @@ class Controller_Files extends Controller_Main {
 
     public function  before() {
         parent::before($title = 'UploadSystem: Файлы');
+        if( $this->_user->info !== NULL ) {
+            $this->_request->response .= View::factory('menu_user')->set( 'name' , $this->_user->info->email );
+        } else {
+            $this->_request->response .= View::factory('menu_guest');
+        }
     }
 
     public function action_index() {
@@ -52,13 +57,7 @@ class Controller_Files extends Controller_Main {
             } else {
                 $this->_request->response .= View::factory( 'guest_no' );
             }
-        }
-
-        if( $this->_user->info !== NULL ) {
-            $this->_request->response .= View::factory( 'logout' );
-        } else {
-            $this->_request->response .= View::factory( 'login_link' );
-        }
+        }      
     }
 
     public function action_upload() {
