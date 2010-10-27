@@ -1,7 +1,6 @@
 RewriteEngine On
 
-# ��������� ���� � �������� ����� �������
-RewriteBase /uploadsystem/
+#RewriteBase /uploadsystem/
 
 <Files .*>
 	Order Deny,Allow
